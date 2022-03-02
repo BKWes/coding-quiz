@@ -51,7 +51,7 @@ var questionArr = [
         answer: 1
     }
 ];
-console.log(questionArr);
+
 
 // start button that, when clicked, starts a timer and presents a question
 
