@@ -51,9 +51,20 @@ var questionArr = [
         answer: 1
     }
 ];
-
-
+var timer = document.getElementById("timer")
+let timer = 90000;
 // start button that, when clicked, starts a timer and presents a question
+// event listener for button click
+document.querySelector("#start-btn").addEventListener("click", function(event) {
+    console.log('button clicked');
+    // clear off intro elements to display quiz
+    var intro = document.getElementById("intro");
+    intro.style.display = 'none';
+    // display quiz elements
+
+    // start timer function
+});
+// timer function to countdown ^
 
 // when a question is answered, the next one is prompted
 
