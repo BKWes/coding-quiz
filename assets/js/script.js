@@ -66,23 +66,54 @@ document.querySelector("#start-btn").addEventListener("click", function(event) {
     var intro = document.getElementById("intro");
     intro.style.display = 'none';
     // display quiz elements
-
+    questionCycle(event);
     // timer countdown function
-    var timerEl = document.getElementById('timer');
     var timerId = setInterval(countdown, 1000);
-
 
     function countdown() {
         if (timer <= 0) {
             clearTimeout(timerId);
         } else {
             timer -= 1
-            timerEl.innerHtml = timer;
+            // update timer on page to reflect changes
+            span.innerHTML = timer;
             console.log(timer);
         }
-        // update timer on page to reflect changes
     };
 });
+// question div
+var questionBox = document.getElementById('question');
+// answer div
+var answerBox = document.getElementById('answer-choices');
+// add content from question array and align the questions with question element and answers with the answer element
+var questionCycle = function() {
+    console.log(questionArr)
+
+    for (var i = 0; i < questionArr.length; i++) {
+        // picks a random question every time start button is pressed
+        var pickedQuestion = questionArr[Math.floor(Math.random() * questionArr.length)];
+        // var pickedQuestionChoices = pickedQuestion[i].choices;
+        console.log(pickedQuestion);
+        
+        var questionEl = document.createElement('h3');
+        questionEl.textContent = pickedQuestion.question;
+        questionBox.appendChild(questionEl);
+
+        var answerEl = document.createElement('ul');
+        answerBox.appendChild(answerEl);
+
+        var answerListEl = document.createElement('li');
+        answerListEl.textContent = pickedQuestion.choices[i];
+        answerEl.appendChild(answerListEl);
+    }
+
+    return Math.floor(Math.random() * questionArr.length);
+// if answer is incorrect subtract 8 seconds from timer
+
+// if answer is correct continue to next question until all questions are answered
+
+};
+
 
 // when a question is answered, the next one is prompted
 
