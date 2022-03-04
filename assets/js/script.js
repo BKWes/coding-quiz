@@ -51,8 +51,13 @@ var questionArr = [
         answer: 1
     }
 ];
-var timer = document.getElementById("timer")
-let timer = 90000;
+var timer = 90;
+// create timer element on html
+var span = document.createElement('span');
+span.className = 'timer';
+span.innerHTML = timer;
+document.getElementById('timer').appendChild(span);
+
 // start button that, when clicked, starts a timer and presents a question
 // event listener for button click
 document.querySelector("#start-btn").addEventListener("click", function(event) {
@@ -62,9 +67,22 @@ document.querySelector("#start-btn").addEventListener("click", function(event) {
     intro.style.display = 'none';
     // display quiz elements
 
-    // start timer function
+    // timer countdown function
+    var timerEl = document.getElementById('timer');
+    var timerId = setInterval(countdown, 1000);
+
+
+    function countdown() {
+        if (timer <= 0) {
+            clearTimeout(timerId);
+        } else {
+            timer -= 1
+            timerEl.innerHtml = timer;
+            console.log(timer);
+        }
+        // update timer on page to reflect changes
+    };
 });
-// timer function to countdown ^
 
 // when a question is answered, the next one is prompted
 
