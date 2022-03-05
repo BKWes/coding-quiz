@@ -1,54 +1,94 @@
 // question array
 var questionArr = [
     {
-        question: "How do you add a comment in Javascript",
-        choices: ["<!-This is a comment-!>", "**This is a comment**", "// this is a comment", "--this is a comment--"],
-        answer: 2
+        question: "How do you add a comment in Javascript?",
+        choices: {
+            a: "<!-This is a comment-!>", 
+            b:"**This is a comment**", 
+            c:"// this is a comment", 
+            d:"--this is a comment--"},
+        answer: 'c'
     },
     {
         question: "How does a FOR loop start?",
-        choices: ["for (i=0; i<=8; i++)", "for (i=0;i<1)", "for i = 0", "for i=0; i<2; i--"],
-        answer: 0
+        choices: {
+            a:"for (i=0; i<=8; i++)", 
+            b:"for (i=0;i<1)", 
+            c:"for i = 0", 
+            d:"for i=0; i<2; i--"},
+        answer: 'a'
     },
     {
-        question: "What is the correct way to write an array in Javacript>",
-        choices: ["var colors = ('red','green',blue)", "var cars = ['honda', 'toyota', 'volkswagen']", "var fruit = 'grape', 'apple', 'banana'", "var color = [yellow, brown, pink]"],
-        answer: 1
+        question: "What is the correct way to write an array in Javacript?",
+        choices: {
+            a:"var colors = ('red','green',blue)", 
+            b:"var cars = ['honda', 'toyota', 'volkswagen']", 
+            c:"var fruit = 'grape', 'apple', 'banana'", 
+            d:"var color = [yellow, brown, pink]"},
+        answer: 'b'
     },
     {
         question: "How do you round an integer down the nearest whole number?",
-        choices: ["Math.round(1.33)", "floor(23.4482", "Math.down(.2910)", "Math.floor(121.8472 * 13.4)"],
-        answer: 3
+        choices: {
+            a:"Math.round(1.33)", 
+            b:"floor(23.4482", 
+            c:"Math.down(.2910)", 
+            d:"Math.floor(121.8472 * 13.4)"},
+        answer: 'd'
     },
     {
         question: "What is the correct way to create an alert box?",
-        choices: ["window('message here')", "var alert = 'message here'", "alert('message here')", "window.box('message here')"],
-        answer: 2
+        choices: {
+            a:"window('message here')", 
+            b:"var alert = 'message here'", 
+            c:"alert('message here')", 
+            d:"window.box('message here')"},
+        answer: 'c'
     },
     {
         question: "Which event occurs when the user clicks on an element?",
-        choices: ["on.mouseclick", "on.hover", "click", "on.click"],
-        answer: 3
+        choices: {
+            a:"on.mouseclick", 
+            b:"on.hover", 
+            c:"click", 
+            d:"on.click"},
+        answer: 'd'
     },
     {
         question: "What is the correct way to declare a variable in JavaScript?",
-        choices: ["var houseColor", "variable color", "v names", "var = dogs"],
-        answer: 0
+        choices: {
+            a:"var houseColor", 
+            b:"variable color", 
+            c:"v names", 
+            d:"var = dogs"},
+        answer: 'a'
     },
     {
         question: "Which operator is known as an 'incrementor'?",
-        choices: ["+", "-", "++", "=="],
-        answer: 2
+        choices: {
+            a:"+", 
+            b:"-", 
+            c:"++", 
+            d:"=="},
+        answer: 'c'
     },
     {
         question: "How do you log a message in the console?",
-        choices: ["log.console(message)", "console.log(message)", "console(message)", "consolelog = message"],
-        answer: 1
+        choices: {
+            a:"log.console(message)", 
+            b:"console.log(message)", 
+            c:"console(message)", 
+            d:"consolelog = message"},
+        answer: 'b'
     },
     {
         question: "How do you get a random number in JavaScript?",
-        choices: ["random(x)", "Math.random()", "mathrandom()", "get.randomNumber()"],
-        answer: 1
+        choices: {
+            a:"random(x)", 
+            b:"Math.random()", 
+            c:"mathrandom()", 
+            d:"get.randomNumber()"},
+        answer: 'b'
     }
 ];
 var timer = 90;
@@ -85,6 +125,9 @@ document.querySelector("#start-btn").addEventListener("click", function(event) {
 var questionBox = document.getElementById('question');
 // answer div
 var answerBox = document.getElementById('answer-choices');
+var answerEl = document.createElement('ul');
+answerBox.appendChild(answerEl);
+
 // add content from question array and align the questions with question element and answers with the answer element
 var questionCycle = function() {
     console.log(questionArr)
@@ -98,14 +141,10 @@ var questionCycle = function() {
         var questionEl = document.createElement('h3');
         questionEl.textContent = pickedQuestion.question;
         questionBox.appendChild(questionEl);
-
-        var answerEl = document.createElement('ul');
-        answerBox.appendChild(answerEl);
-
-        var answerListEl = document.createElement('li');
-        answerListEl.textContent = pickedQuestion.choices[i];
-        answerEl.appendChild(answerListEl);
     }
+        var answerListEl = document.createElement('li');
+        answerListEl.textContent = pickedQuestion.choices
+        answerEl.appendChild(answerListEl);
 
     return Math.floor(Math.random() * questionArr.length);
 // if answer is incorrect subtract 8 seconds from timer
@@ -114,6 +153,10 @@ var questionCycle = function() {
 
 };
 
+var wrongChoice = function() {
+    timer -= 8;
+    span.innerHTML = timer;
+};
 
 // when a question is answered, the next one is prompted
 
