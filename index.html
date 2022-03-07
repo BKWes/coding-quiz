@@ -7,11 +7,21 @@
     <title>Document</title>
 </head>
 <header>
-    <a href="./highscores.html">View high scores</a>
+    <a href="./highscores.html">View high scores</a> 
     <div id="timer"></div>
 </header>
 <main>
-    <div id="question"></div>
-    <div id="answer-choices"></div>
+    <div id="intro">
+        <h1>Coding Quiz</h1>
+        <p>
+            You will have 90 seconds to answer the questions. If you answer a question incorrectly, time will be subtraced from the timer. The quiz ends when you answer all the questions or the timer reaches zero. <br> the start button to begin.
+         </p>
+    <button id="start-btn" class="btn">Start</button>
+    </div> 
+    <div class="container" id="quiz-box">
+        <div id="question"></div>
+        <ul id="choices"></ul>
+    </div>
+    <script type="text/javascript" src="./assets/js/script.js"></script>
 </main>
 </html>
