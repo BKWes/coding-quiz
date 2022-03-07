@@ -1,112 +1,67 @@
-// question array
-var questionArr = [
-    {
-        question: "How do you add a comment in Javascript?",
-        choices: {
-            a: "<!-This is a comment-!>", 
-            b:"**This is a comment**", 
-            c:"// this is a comment", 
-            d:"--this is a comment--"},
-        answer: 'c'
-    },
-    {
-        question: "How does a FOR loop start?",
-        choices: {
-            a:"for (i=0; i<=8; i++)", 
-            b:"for (i=0;i<1)", 
-            c:"for i = 0", 
-            d:"for i=0; i<2; i--"},
-        answer: 'a'
-    },
-    {
-        question: "What is the correct way to write an array in Javacript?",
-        choices: {
-            a:"var colors = ('red','green',blue)", 
-            b:"var cars = ['honda', 'toyota', 'volkswagen']", 
-            c:"var fruit = 'grape', 'apple', 'banana'", 
-            d:"var color = [yellow, brown, pink]"},
-        answer: 'b'
-    },
-    {
-        question: "How do you round an integer down the nearest whole number?",
-        choices: {
-            a:"Math.round(1.33)", 
-            b:"floor(23.4482", 
-            c:"Math.down(.2910)", 
-            d:"Math.floor(121.8472 * 13.4)"},
-        answer: 'd'
-    },
-    {
-        question: "What is the correct way to create an alert box?",
-        choices: {
-            a:"window('message here')", 
-            b:"var alert = 'message here'", 
-            c:"alert('message here')", 
-            d:"window.box('message here')"},
-        answer: 'c'
-    },
-    {
-        question: "Which event occurs when the user clicks on an element?",
-        choices: {
-            a:"on.mouseclick", 
-            b:"on.hover", 
-            c:"click", 
-            d:"on.click"},
-        answer: 'd'
-    },
-    {
-        question: "What is the correct way to declare a variable in JavaScript?",
-        choices: {
-            a:"var houseColor", 
-            b:"variable color", 
-            c:"v names", 
-            d:"var = dogs"},
-        answer: 'a'
-    },
-    {
-        question: "Which operator is known as an 'incrementor'?",
-        choices: {
-            a:"+", 
-            b:"-", 
-            c:"++", 
-            d:"=="},
-        answer: 'c'
-    },
-    {
-        question: "How do you log a message in the console?",
-        choices: {
-            a:"log.console(message)", 
-            b:"console.log(message)", 
-            c:"console(message)", 
-            d:"consolelog = message"},
-        answer: 'b'
-    },
-    {
-        question: "How do you get a random number in JavaScript?",
-        choices: {
-            a:"random(x)", 
-            b:"Math.random()", 
-            c:"mathrandom()", 
-            d:"get.randomNumber()"},
-        answer: 'b'
-    }
-];
-var timer = 90;
+var timer = 80; // this gives the user 10 seconds to answer each question
+var timePenalty = 8; // the user loses 8 seconds from timer for incorrect answers
+var score = 0; // set score to 0 start
+var startBtn = document.querySelector("#start-btn");
+var questionEl = document.querySelector("#question");
+var choicesEl = document.querySelector("#choices");
+
+var questionIndex = 0;
 // create timer element on html
 var span = document.createElement('span');
 span.className = 'timer';
 span.innerHTML = timer;
 document.getElementById('timer').appendChild(span);
 
+// question array
+var questionArr = [
+    {
+        question: "How do you add a comment in Javascript?",
+        choices: ["<!-This is a comment-!>", "**This is a comment**", "// this is a comment", "--this is a comment--"],
+        answer: "// this is a comment"
+    },
+    {
+        question: "What is the correct way to write an array in Javacript?",
+        choices: ["var colors = ('red','green',blue)", "var cars = ['honda', 'toyota', 'volkswagen']", "var fruit = 'grape', 'apple', 'banana'", "var color = [yellow, brown, pink]"],
+        answer: "var cars = ['honda', 'toyota', 'volkswagen']"
+    },
+    {
+        question: "How do you round an integer down the nearest whole number?",
+        choices: ["Math.round(1.33)", "floor(23.4482", "Math.down(.2910)", "Math.floor(121.8472 * 13.4)"],
+        answer: "Math.floor(121.8472 * 13.4)"
+    },
+    {
+        question: "What is the correct way to create an alert box?",
+        choices: ["window('message here')", "var alert = 'message here'", "alert('message here')", "window.box('message here')"],
+        answer: "alert('message here')"
+    },
+    {
+        question: "Which event occurs when the user clicks on an element?",
+        choices: ["on.mouseclick", "on.hover", "click", "on.click"],
+        answer: "on.click"
+    },
+    {
+        question: "What is the correct way to declare a variable in JavaScript?",
+        choices: ["var houseColor", "variable color", "v names", "var = dogs"],
+        answer: "var = dogs"
+    },
+    {
+        question: "Which operator is known as an 'incrementor'?",
+        choices: ["+", "-", "++", "=="],
+        answer: "++"
+    },
+    {
+        question: "How do you log a message in the console?",
+        choices: ["log.console(message)", "console.log(message)", "console(message)", "consolelog = message"],
+        answer: "console.log(message)"
+    }
+];
+
 // start button that, when clicked, starts a timer and presents a question
 // event listener for button click
-document.querySelector("#start-btn").addEventListener("click", function(event) {
-    console.log('button clicked');
+startBtn.addEventListener("click", function(event) {
     // clear off intro elements to display quiz
     var intro = document.getElementById("intro");
     intro.style.display = 'none';
-    // display quiz elements
-    questionCycle(event);
     // timer countdown function
     var timerId = setInterval(countdown, 1000);
 
@@ -114,50 +69,68 @@ document.querySelector("#start-btn").addEventListener("click", function(event) {
         if (timer <= 0) {
             clearTimeout(timerId);
         } else {
-            timer -= 1
+            timer --;
             // update timer on page to reflect changes
             span.innerHTML = timer;
             console.log(timer);
+            
+            if (timer <= 0) {
+                endQuiz();
+            }
         }
     };
+    // start quiz
+    startQuiz(event);
 });
-// question div
-var questionBox = document.getElementById('question');
-// answer div
-var answerBox = document.getElementById('answer-choices');
-var answerEl = document.createElement('ul');
-answerBox.appendChild(answerEl);
+
+
+
+
 
 // add content from question array and align the questions with question element and answers with the answer element
-var questionCycle = function() {
-    console.log(questionArr)
-
+function startQuiz() {
+    // reset question and answers
+    questionEl.innerHTML = "";
+    choicesEl.innerHTML = "";
+    
+    
     for (var i = 0; i < questionArr.length; i++) {
-        // picks a random question every time start button is pressed
-        var pickedQuestion = questionArr[Math.floor(Math.random() * questionArr.length)];
-        // var pickedQuestionChoices = pickedQuestion[i].choices;
-        console.log(pickedQuestion);
-        
-        var questionEl = document.createElement('h3');
-        questionEl.textContent = pickedQuestion.question;
-        questionBox.appendChild(questionEl);
-    }
-        var answerListEl = document.createElement('li');
-        answerListEl.textContent = pickedQuestion.choices
-        answerEl.appendChild(answerListEl);
+        var questionTitle = questionArr[questionIndex].question;
+        var choiceList = questionArr[questionIndex].choices;
+        questionEl.textContent = questionTitle;
 
-    return Math.floor(Math.random() * questionArr.length);
+        choiceList.forEach(function (newQuestion) {
+            var listItem = document.createElement("li");
+            listItem.textContent = newQuestion
+            questionEl.appendChild(choicesEl);
+            choicesEl.appendChild(listItem);
+            listItem.addEventListener("click", userAnswer)
+    })
+
+}
+
+function userAnswer(event) {
+    var element = event.target;
+    if (element.matches("li")) {
+        if (element.textContent == questionArr[questionIndex].answer) {
+            score = score + 15;
+            element.style.backgroundColor = 'green';
+        }
+        else {
+            timer -= timePenalty;
+        }
+    }
+}
+        
+
+//     return Math.floor(Math.random() * questionArr.length);
 // if answer is incorrect subtract 8 seconds from timer
 
 // if answer is correct continue to next question until all questions are answered
 
 };
 
-var wrongChoice = function() {
-    timer -= 8;
-    span.innerHTML = timer;
-};
-
+function endQuiz() {};
 // when a question is answered, the next one is prompted
 
 // incorrect questions penalize by subtracting from timer 
